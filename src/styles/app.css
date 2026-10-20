@@ -1,0 +1,148 @@
+/* 實際網頁的版面。配色、像素邊框、元件外觀在 pixel.css（來自 docs/design/pixel.css） */
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+html[data-theme='night'] body { background: #0e1033; }
+html[data-theme='day'] body { background: #fff1d0; }
+body { overscroll-behavior: none; }
+
+[hidden] { display: none !important; }
+
+.app {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  -webkit-tap-highlight-color: transparent;
+}
+.app :focus-visible {
+  outline: 3px dashed var(--pink-d);
+  outline-offset: 3px;
+}
+
+/* ───────── 進入頁 ───────── */
+.join { align-items: center; }
+.join-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  max-width: 400px;
+}
+.big-heart { width: 42px; height: 36px; margin-bottom: 8px; }
+.join-hint { margin: 0; text-align: center; }
+
+.sk-petal { fill: var(--pink); }
+.sk-core { fill: #ffe18a; }
+.night .sk-core { fill: #ffd84d; }
+.deco-star { color: #e5a800; }
+.night .deco-star { color: #ffd84d; }
+.deco-heart { color: var(--pink-d); }
+.deco-mint { color: var(--mint-d); }
+
+/* ───────── 聊天室版面（手機優先） ───────── */
+.room {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.hdr { margin-top: calc(14px + env(safe-area-inset-top)); }
+.ttl-sub { display: none; margin-left: 10px; font-size: 14px; }
+.room-body { display: flex; flex: 1; min-height: 0; }
+.room-main { display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; }
+.mem-side { display: none; }
+.mem-panel { flex: none; }
+.mem-name { overflow: hidden; text-overflow: ellipsis; }
+
+/* ───────── 訊息區：可捲動，內容少時貼在底部 ───────── */
+.msgwrap { position: relative; display: flex; flex: 1; min-height: 0; }
+.msgs {
+  overflow-y: auto;
+  justify-content: flex-start;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink) transparent;
+}
+.msgs > .feed-item:first-child { margin-top: auto; }
+.msgs:focus-visible { outline-offset: -6px; }
+.feed-item { flex: none; }
+
+.pic {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  margin-top: 8px;
+  background: var(--other);
+}
+.bub .pic:first-child { margin-top: 0; }
+.pic img { display: block; width: auto; height: auto; max-width: 220px; max-height: 200px; }
+
+/* ───────── 輸入區 ───────── */
+.comp { margin-bottom: calc(16px + env(safe-area-inset-bottom)); }
+.msg-field { flex: 1; min-width: 0; overflow-y: auto; line-height: 1.4; }
+.cnt.warn { color: var(--ink); }
+.prev img.thumb { object-fit: cover; }
+.prev .info-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.eg-btn {
+  min-height: 40px;
+  padding: 2px 0;
+  border: 0;
+  font-size: 22px;
+  line-height: 1.4;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+}
+.eg-btn:hover { background: var(--pink); }
+
+/* ───────── 圖片放大 ───────── */
+.viewer-img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  max-height: 70dvh;
+  object-fit: contain;
+  background: var(--other);
+  box-shadow: var(--bx), 6px 6px 0 0 var(--shade);
+  cursor: zoom-out;
+}
+
+/* ───────── 電腦版：名單移到右側 ───────── */
+@media (min-width: 900px) {
+  .hdr { margin: 18px 28px 8px; padding: 10px 14px 10px 18px; }
+  .ttl { font-size: 20px; }
+  .ttl-sub { display: inline; }
+  .online-toggle { display: none; }
+  .mem-panel { display: none; }
+  .mem-side {
+    display: block;
+    flex: none;
+    align-self: flex-start;
+    width: 260px;
+    margin: 10px 28px 22px 8px;
+  }
+  .msgs { padding: 12px 28px 6px; }
+  .typing { padding-left: 30px; }
+  .comp { margin: 4px 0 22px 28px; }
+  .emo { margin: 0 0 4px 28px; }
+  .banner { margin: 10px 28px 2px; }
+}
+
+/* ───────── 偏好減少動態的人：關掉所有動畫 ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .dots i,
+  .bub.last::after { animation: none; }
+  .dots i { opacity: 1; }
+  .btn:active { transform: none; }
+}
